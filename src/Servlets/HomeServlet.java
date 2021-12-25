@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 public class HomeServlet extends HttpServlet {
 
@@ -22,7 +23,7 @@ public class HomeServlet extends HttpServlet {
     UserService userService;
     InputService inputService;
 
-    public void init(){
+    public void init() {
         dataBaseModel = StartupServlet.getDataBaseModel();
         userModel = StartupServlet.getUserModel();
         userService = StartupServlet.getUserService();
@@ -36,17 +37,18 @@ public class HomeServlet extends HttpServlet {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
         request.setAttribute("currentUser", userModel.GetLogin());
+
         try {
-            request.setAttribute("filelist", dataBaseService.GetMediaList());
+            List<String> mediaList = List.of(dataBaseService.GetMediaList());
+            request.setAttribute("filelist", mediaList);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        dispatcher.forward(request,response);
+        dispatcher.forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-
     }
 }

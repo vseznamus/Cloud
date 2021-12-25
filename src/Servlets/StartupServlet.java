@@ -65,6 +65,7 @@ public class StartupServlet extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
+
         try {
             if(request.getParameter("signupbutton") != null) {
                 response.sendRedirect("/registration");

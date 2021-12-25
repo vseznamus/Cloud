@@ -1,4 +1,7 @@
 <%@ page import="Servlets.HomeServlet" %>
+<%@ page import="java.util.List" %>
+<%@ page import="Servlets.HomeServlet" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html lang="en">
 <script>
@@ -7,16 +10,25 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Home</title>
                 <script src="/Servlets/HomeServlet.java"></script>
+
 </head>
 <body style="background: linear-gradient(to right, #4E3147 50%, #31182B 50%);">
 
-<div style=" margin-top: 22%; margin-left: 12%;">
+<div style=" margin-top: 20%;">
     <ul>
-        {% for i in <%=request.getAttribute("filelist")%>%}
-            <li style="list-style-type: none; margin-bottom: 20px;  background: #C0C7DA; padding: 20px; width: 300px;">
-            {{ i }}
-            </li>
-        {% endfor %}
+        <%
+
+            List<String> files = (List<String>) request.getAttribute("filelist"); %>
+        <%
+            for (String file:
+                    files) { %>
+<%--                <li style="list-style-type: none; margin-bottom: 20px;  background: #C0C7DA; padding: 20px; width: 300px;"><%=file%></li>--%>
+                <li style="list-style-type: none; margin-bottom: 1px; height: 60px"><button style="list-style-type: none; margin-bottom: 20px;  background: #C0C7DA; padding: 20px; width: 600px;"
+                        type="submit" name=<%=file%>><%=file%>
+                </button></li>
+            <%}%>
+
+
 
     </ul>
 </div>
