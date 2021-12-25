@@ -26,7 +26,7 @@ public class StartupServlet extends HttpServlet {
     protected static UserService userService;
     protected static InputService inputService;
 
-    public void init(){
+    public void init(){ // Инициализируем логику (везде берем new, т.к. это стартовая страница и здесь происходит инициализация)
         dataBaseModel = new DataBaseModel();
         userModel = new UserModel();
         userService = new UserService(userModel);
@@ -37,10 +37,11 @@ public class StartupServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.getWriter().append("Served at: ").append(request.getContextPath());
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-        dispatcher.forward(request,response);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp"); // привязываем к файлу
+        dispatcher.forward(request,response); // перенаправление
     }
 
+    //геттеры для последующей инициализации в других сервлетах, чтобы ничего не потерять
     public static DataBaseModel getDataBaseModel() {
         return dataBaseModel;
     }
@@ -61,6 +62,11 @@ public class StartupServlet extends HttpServlet {
         return inputService;
     }
 
+
+    // записываем из вёрстки в переменные
+    // проверям кнопки и выполняем условие
+    // если вход - проверка бд + перенаправление
+    // регистрация - перенаправление на другой сервлет
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String login = request.getParameter("login");
         String password = request.getParameter("password");

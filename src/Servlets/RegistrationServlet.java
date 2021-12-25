@@ -24,7 +24,7 @@ public class RegistrationServlet extends HttpServlet {
     UserService userService;
     InputService inputService;
 
-    public void init(){
+    public void init(){ // Инициализируем логику (продолжаем ее - берем статик)
         dataBaseModel = StartupServlet.getDataBaseModel();
         userModel = StartupServlet.getUserModel();
         userService = StartupServlet.getUserService();
@@ -36,10 +36,17 @@ public class RegistrationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.getWriter().append("Served at: ").append(request.getContextPath());
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("regis.jsp");
-        dispatcher.forward(request,response);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("regis.jsp"); // привязываем сервлет к файлу
+        dispatcher.forward(request,response); // перенаправляем
     }
 
+
+    // тут получаем поля из вёрстки и записываем их
+    // затем проверяем нажатия кнопки и исходя из того,
+    // какая кнопка нажата - делаем действия - либо
+    // перенаправляем пользователя сюда же (в случае неудачи или воли пользователя вернуться на страницу логина)
+    // либо пробуем зарегистрироваться + перенаправление
+    // на ссылку с домашней страницей
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String login = request.getParameter("login");
         String password = request.getParameter("password");

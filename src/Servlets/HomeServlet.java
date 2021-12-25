@@ -23,7 +23,7 @@ public class HomeServlet extends HttpServlet {
     UserService userService;
     InputService inputService;
 
-    public void init() {
+    public void init() { // Инициализируем логику (продолжаем ее - берем статик)
         dataBaseModel = StartupServlet.getDataBaseModel();
         userModel = StartupServlet.getUserModel();
         userService = StartupServlet.getUserService();
@@ -35,9 +35,11 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.getWriter().append("Served at: ").append(request.getContextPath());
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
-        request.setAttribute("currentUser", userModel.GetLogin());
+        RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp"); // данный сервлет относится к файлу в скобках
+        request.setAttribute("currentUser", userModel.GetLogin()); // создаем "переменную" с логином текущего юзера
 
+        // получаем список файлов и записываем его в атрибут для передачи в вёрстку
+        // попоутно оборачиваем все в исключения
         try {
             List<String> mediaList = List.of(dataBaseService.GetMediaList());
             request.setAttribute("filelist", mediaList);
@@ -46,7 +48,7 @@ public class HomeServlet extends HttpServlet {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        dispatcher.forward(request, response);
+        dispatcher.forward(request, response); // перенаправляем запрос
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
